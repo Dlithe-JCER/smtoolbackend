@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
-
+import helmet from 'helmet';
 // Import routes
 import trainerRoutes from './routes/trainerRoutes.js';
 import clientRequirementRoutes from './routes/clientRequirementRoutes.js';
@@ -14,11 +14,19 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+
+
+app.use(helmet()); // Use Helmet for security
 // Connect to MongoDB
 connectDB();
 
 // Middleware
-app.use(cors());
+
+
+app.use(cors({
+    origin: "https://smtoolfrontend-git-main-dlithe-jcers-projects.vercel.app",
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
